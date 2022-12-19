@@ -337,24 +337,6 @@ if(isset($_POST['update'])){
           
         </ul>
       </li><!-- End Siswa Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Kriteria-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-table"></i><span>Kriteria Nilai</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="Kriteria-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Kriteria Nilai Harian</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Kriteria Nilai Bulanan</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Kriteria Nav -->
       
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#pembayaran-nav" data-bs-toggle="collapse" href="#">

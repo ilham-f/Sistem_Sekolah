@@ -84,9 +84,6 @@ class pembayaran extends db {
         return $result;
     }
     
-    function view(){
-        
-    }
 }
 
 ?>
