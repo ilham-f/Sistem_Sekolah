@@ -5,24 +5,14 @@ $data = new pembayaran;
 
 // Update barang
 if(isset($_POST['update'])){
-  // id_barang, id_jenis, nama_barang, stok_barang, berat_barang, harga_jual, gambar_barang
-  $id_barang = $_POST['id_barang'];
-  $id_jenis = $_POST['id_jenis'];
-  $nama_barang = $_POST['nama_barang'];
-  $stok_barang = $_POST['stok_barang'];
-  $berat_barang = $_POST['berat_barang'];
-  $harga_jual = $_POST['harga_jual'];
-  $gambar_barang = $_FILES['gambar_barang'];
+  // no_bayar, jumlah_bayar, tgl_bayar
+  $no_bayar = $_POST['no_bayar'];
+  $jumlah_bayar = $_POST['jumlah_bayar'];
+  $tgl_bayar = $_POST['tgl_bayar'];
 
-  if ($gambar_barang['error'] == 4) {
-      $data->updateBarang($id_barang, $id_jenis, $nama_barang, $stok_barang, $berat_barang, $harga_jual);
-  } else {
-      $gambar = $data->upload($gambar_barang);
-      $data->update($id_barang, $id_jenis, $nama_barang, $stok_barang, $berat_barang, $harga_jual, $gambar);
-  }
+  $data->update($no_bayar, $jumlah_bayar, $tgl_bayar);
   
-  
-  header("Location: tabel-barang.php");
+  header("Location: tabelPembayaran.php");
 }
 
 ?>
@@ -301,59 +291,23 @@ if(isset($_POST['update'])){
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link collapsed" href="index.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Siswa-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-table"></i><span>Siswa</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" href="tabelSiswa.php">
+          <i class="bi bi-person"></i><span>Siswa</span>
         </a>
-        <ul id="Siswa-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="tabelSiswa.php">
-              <i class="bi bi-circle"></i><span>Data Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Nilai Harian Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Nilai Bulanan Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Raport Siswa</span>
-            </a>
-          </li>
-          
-        </ul>
       </li><!-- End Siswa Nav -->
       
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#pembayaran-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-table"></i><span>Pembayaran</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link" href="tabelPembayaran.php">
+          <i class="bi bi-credit-card"></i><span>Pembayaran SPP</span>
         </a>
-        <ul id="pembayaran-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="tabelPembayaran.php">
-              <i class="bi bi-circle"></i><span>Pembayaran SPP Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Jenis Pembayaran</span>
-            </a>
-          </li>
-        </ul>
       </li><!-- End Pembayaran Nav -->
     </ul>
 
@@ -362,13 +316,7 @@ if(isset($_POST['update'])){
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
+      <h1>Pembayaran SPP</h1>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
@@ -377,11 +325,10 @@ if(isset($_POST['update'])){
             <thead class="thead-dark">
                 <!-- noinduk_siswa, NIK_walmur, nama_siswa, jenis_kelamin, tgllahir, tgl_masuk, tgl_lulus, alamat, anakke -->
                 <tr>
-                    <th scope="col">No Induk</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Jenis Kelamin</th>
-                    <th scope="col">Tgl Lahir</th>
-                    <th scope="col">Alamat</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nama Siswa</th>
+                    <th scope="col">Tanggal</th>
+                    <th scope="col">Jumlah</th>
                     <th scope="col" class="text-center">AKSI</th>
                 </tr>          
 
@@ -390,49 +337,20 @@ if(isset($_POST['update'])){
             <tbody>
                             
                 <?php //var_dump($data->show()) ?>
-                <?php foreach ($data->show() as $value)
-                    if ($value['jenis_kelamin'] == 0) {
+                <?php foreach ($data->joinSiswaBayar() as $value){
                         echo
                         '<tr>
-                            <th scope="row">'.$value['noinduk_siswa'].'</th>
+                            <td>'.$value['no_bayar'].'</td>
                             <td>'.$value['nama_siswa'].'</td>
-                            <td>Laki-laki</td>
-                            <td>'.$value['tgllahir'].'</td>
-                            <td>'.$value['alamat'].'</td>
+                            <td>'.$value['tgl_bayar'].'</td>
+                            <td>'.$value['jumlah_bayar'].'</td>
                             <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#info'.$value['noinduk_siswa'].'">
-                                  <i class="bi bi-info-square"></i>                                
-                                </button>
-                                <button type="button" class="btn btn-warning ms-2 me-2" data-bs-toggle="modal" data-bs-target="#update'.$value['noinduk_siswa'].'">
-                                  <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete'.$value['noinduk_siswa'].'">
-                                  <i class="bi bi-trash"></i>                              
+                                <button type="button" class="btn btn-warning ms-2 me-2" data-bs-toggle="modal" data-bs-target="#update'.$value['no_bayar'].'">
+                                  <i class="bi bi-pencil-square">Ubah</i>
                                 </button>
                             </td>
                         </tr>';
-                    } else if($value['jenis_kelamin'] == 1){
-                        echo 
-                        '<tr>
-                            <th scope="row">'.$value['noinduk_siswa'].'</th>
-                            <td>'.$value['nama_siswa'].'</td>
-                            <td>Perempuan</td>
-                            <td>'.$value['tgllahir'].'</td>
-                            <td>'.$value['alamat'].'</td>
-                            <td class="d-flex justify-content-center">
-                              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#info'.$value['noinduk_siswa'].'">
-                                <i class="bi bi-info-square"></i>                                
-                              </button>
-                              <button type="button" class="btn btn-warning ms-2 me-2" data-bs-toggle="modal" data-bs-target="#update'.$value['noinduk_siswa'].'">
-                                <i class="bi bi-pencil-square"></i>
-                              </button>
-                              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete'.$value['noinduk_siswa'].'">
-                                <i class="bi bi-trash"></i>                              
-                              </button>
-                            </td>
-                        </tr>';
-                    }
-                ?>
+                }?>
 
             </tbody>
         </table>           
@@ -440,81 +358,33 @@ if(isset($_POST['update'])){
 
   </main><!-- End #main -->
 
-  <!-- Modal Info -->
-  <?php foreach ($data->show() as $value){
-        echo '
-            <div class="modal fade bd-example-modal-lg" id="info'.$value['noinduk_siswa'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Detail</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row g-4">
-                              <div class="col-6 mb-3 mt-3">
-                                  <label for="NIK_walmur" class="form-label">NIK Wali</label>
-                                  <input type="text" name="NIK_walmur" value="'.$value['NIK_walmur'].'" class="form-control" readonly>
-                              </div>                            
-                              <div class="col-6 mb-3 mt-3">
-                                  <label for="anakke" class="form-label">Anak Ke-</label>
-                                  <input type="number" name="anakke" value="'.$value['anakke'].'" class="form-control" readonly>
-                              </div>
-                            </div>
-                            <div class="row g-4">
-                              <div class="col-6 mb-3 mt-3">
-                                  <label for="tgl_masuk" class="form-label">Tanggal Masuk</label>
-                                  <input type="text" name="tgl_masuk" value="'.$value['tgl_masuk'].'" class="form-control" readonly>
-                              </div>
-                              <div class="col-6 mb-3 mt-3">
-                                  <label for="tgl_lulus" class="form-label">Tanggal Lulus</label>
-                                  <input type="text" name="tgl_lulus" value="'.$value['tgl_lulus'].'" class="form-control" readonly>
-                              </div>
-                            </div>
-                                
-                        </div>
-                    </div>
-                </div>
-            </div>';
-    }?>
-
     <!-- Modal Update -->
     <?php foreach ($data->show() as $value){
           echo '
-              <div class="modal fade bd-example-modal-lg" id="update'.$value['noinduk_siswa'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade bd-example-modal-lg" id="update'.$value['no_bayar'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                           <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="exampleModalLabel">Detail</h1>
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah</h1>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
                             <form action="" method="post">
                               <div class="row g-4">
+                                <input type="hidden" name="no_bayar" value="'.$value['no_bayar'].'" class="form-control">
                                 <div class="col-6 mb-3 mt-3">
-                                    <label for="NIK_walmur" class="form-label">NIK Wali</label>
-                                    <input type="text" name="NIK_walmur" value="'.$value['NIK_walmur'].'" class="form-control" readonly>
+                                    <label for="tgl_bayar" class="form-label">Tanggal</label>
+                                    <input type="text" name="tgl_bayar" value="'.$value['tgl_bayar'].'" class="form-control">
+                                </div>
+                                <div class="col-6 mb-3 mt-3">
+                                    <label for="jumlah_bayar" class="form-label">Jumlah Bayar</label>
+                                    <input type="text" name="jumlah_bayar" value="'.$value['jumlah_bayar'].'" class="form-control">
                                 </div>                            
-                                <div class="col-6 mb-3 mt-3">
-                                    <label for="anakke" class="form-label">Anak Ke-</label>
-                                    <input type="number" name="anakke" value="'.$value['anakke'].'" class="form-control" readonly>
-                                </div>
                               </div>
-                              <div class="row g-4">
-                                <div class="col-6 mb-3 mt-3">
-                                    <label for="tgl_masuk" class="form-label">Tanggal Masuk</label>
-                                    <input type="text" name="tgl_masuk" value="'.$value['tgl_masuk'].'" class="form-control" readonly>
-                                </div>
-                                <div class="col-6 mb-3 mt-3">
-                                    <label for="tgl_lulus" class="form-label">Tanggal Lulus</label>
-                                    <input type="text" name="tgl_lulus" value="'.$value['tgl_lulus'].'" class="form-control" readonly>
-                                </div>
-
-                                <div class="submit mt-4">
+                              <div class="submit mt-4">
                                     <button type="submit" name="update" class="btn btn-primary">
                                         Simpan
                                     </button>
-                                </div>
                               </div>
                             </form>
                           </div>
@@ -540,5 +410,4 @@ if(isset($_POST['update'])){
 
 
 </body>
-
 </html>

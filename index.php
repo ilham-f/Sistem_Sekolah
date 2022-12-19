@@ -271,60 +271,24 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
-
+  <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link " href="index.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Siswa-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-table"></i><span>Siswa</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" href="tabelSiswa.php">
+          <i class="bi bi-person"></i><span>Siswa</span>
         </a>
-        <ul id="Siswa-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="tabelSiswa.php">
-              <i class="bi bi-circle"></i><span>Data Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Nilai Harian Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Nilai Bulanan Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-badges.html">
-              <i class="bi bi-circle"></i><span>Raport Siswa</span>
-            </a>
-          </li>
-          
-        </ul>
       </li><!-- End Siswa Nav -->
       
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#pembayaran-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-table"></i><span>Pembayaran</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" href="tabelPembayaran.php">
+          <i class="bi bi-credit-card"></i><span>Pembayaran SPP</span>
         </a>
-        <ul id="pembayaran-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="tabelPembayaran.php">
-              <i class="bi bi-circle"></i><span>Pembayaran SPP Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Jenis Pembayaran</span>
-            </a>
-          </li>
-        </ul>
       </li><!-- End Pembayaran Nav -->
     </ul>
 

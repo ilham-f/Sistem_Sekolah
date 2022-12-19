@@ -17,11 +17,10 @@ class pembayaran extends db {
         return $result;
     }
     
-    function joinSiswaJenisBayar(){
+    function joinSiswaBayar(){
         $data = $this->db->prepare("SELECT * 
                                     FROM siswa s
-                                    JOIN pembayaran p ON s.noinduk_siswa = p.noinduk_siswa
-                                    JOIN jenis_pembayaran j ON p.id_jenis = j.id_jenis");
+                                    JOIN pembayaran p ON s.noinduk_siswa = p.noinduk_siswa");
 
         try {
             $data->execute();
@@ -53,13 +52,11 @@ class pembayaran extends db {
     }
     
     // no_bayar,tgl_bayar,jumlah_bayar, noinduk_siswa, id_jenis
-    function update($no_bayar, $tgl_bayar, $jumlah_bayar, $noinduk_siswa, $id_jenis){
+    function update($no_bayar, $jumlah_bayar, $tgl_bayar){
         $data = $this->db->prepare("UPDATE pembayaran 
                                     SET tgl_bayar = '$tgl_bayar', 
-                                        jumlah_bayar = $jumlah_bayar, 
-                                        noinduk_siswa = '$noinduk_siswa', 
-                                        id_jenis = $id_jenis
-                                    WHERE noinduk_siswa = '$noinduk_siswa'");
+                                        jumlah_bayar = $jumlah_bayar
+                                    WHERE no_bayar = '$no_bayar'");
 
             
         try {

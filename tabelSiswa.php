@@ -5,24 +5,16 @@ $data = new siswa;
 
 // Update barang
 if(isset($_POST['update'])){
-  // id_barang, id_jenis, nama_barang, stok_barang, berat_barang, harga_jual, gambar_barang
-  $id_barang = $_POST['id_barang'];
-  $id_jenis = $_POST['id_jenis'];
-  $nama_barang = $_POST['nama_barang'];
-  $stok_barang = $_POST['stok_barang'];
-  $berat_barang = $_POST['berat_barang'];
-  $harga_jual = $_POST['harga_jual'];
-  $gambar_barang = $_FILES['gambar_barang'];
+  // noinduk_siswa, NIK_walmur, nama_siswa, tgl_lulus, alamat
+  $noinduk_siswa = $_POST['noinduk_siswa'];
+  $NIK_walmur = $_POST['NIK_walmur'];
+  $nama_siswa = $_POST['nama_siswa'];
+  $tgl_lulus = $_POST['tgl_lulus'];
+  $alamat = $_POST['alamat'];
 
-  if ($gambar_barang['error'] == 4) {
-      $data->updateBarang($id_barang, $id_jenis, $nama_barang, $stok_barang, $berat_barang, $harga_jual);
-  } else {
-      $gambar = $data->upload($gambar_barang);
-      $data->update($id_barang, $id_jenis, $nama_barang, $stok_barang, $berat_barang, $harga_jual, $gambar);
-  }
+  $data->update($noinduk_siswa, $NIK_walmur, $nama_siswa, $tgl_lulus, $alamat);
   
-  
-  header("Location: tabel-barang.php");
+  header("Location: tabelSiswa.php");
 }
 
 ?>
@@ -300,60 +292,24 @@ if(isset($_POST['update'])){
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
-
+  <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link collapsed" href="index.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Siswa-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-table"></i><span>Siswa</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link" href="tabelSiswa.php">
+          <i class="bi bi-person"></i><span>Siswa</span>
         </a>
-        <ul id="Siswa-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="tabelSiswa.php">
-              <i class="bi bi-circle"></i><span>Data Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Nilai Harian Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Nilai Bulanan Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Raport Siswa</span>
-            </a>
-          </li>
-          
-        </ul>
       </li><!-- End Siswa Nav -->
       
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#pembayaran-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-table"></i><span>Pembayaran</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" href="tabelPembayaran.php">
+          <i class="bi bi-credit-card"></i><span>Pembayaran SPP</span>
         </a>
-        <ul id="pembayaran-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="tabelPembayaran.php">
-              <i class="bi bi-circle"></i><span>Pembayaran SPP Siswa</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Jenis Pembayaran</span>
-            </a>
-          </li>
-        </ul>
       </li><!-- End Pembayaran Nav -->
     </ul>
 
@@ -362,13 +318,7 @@ if(isset($_POST['update'])){
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
+      <h1>Siswa</h1>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
@@ -401,13 +351,10 @@ if(isset($_POST['update'])){
                             <td>'.$value['alamat'].'</td>
                             <td class="d-flex justify-content-center">
                                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#info'.$value['noinduk_siswa'].'">
-                                  <i class="bi bi-info-square"></i>                                
+                                  <i class="bi bi-info-square">Info</i>                                
                                 </button>
                                 <button type="button" class="btn btn-warning ms-2 me-2" data-bs-toggle="modal" data-bs-target="#update'.$value['noinduk_siswa'].'">
-                                  <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete'.$value['noinduk_siswa'].'">
-                                  <i class="bi bi-trash"></i>                              
+                                  <i class="bi bi-pencil-square">Ubah</i>
                                 </button>
                             </td>
                         </tr>';
@@ -421,13 +368,10 @@ if(isset($_POST['update'])){
                             <td>'.$value['alamat'].'</td>
                             <td class="d-flex justify-content-center">
                               <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#info'.$value['noinduk_siswa'].'">
-                                <i class="bi bi-info-square"></i>                                
+                                <i class="bi bi-info-square">Info</i>                                
                               </button>
                               <button type="button" class="btn btn-warning ms-2 me-2" data-bs-toggle="modal" data-bs-target="#update'.$value['noinduk_siswa'].'">
-                                <i class="bi bi-pencil-square"></i>
-                              </button>
-                              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete'.$value['noinduk_siswa'].'">
-                                <i class="bi bi-trash"></i>                              
+                                <i class="bi bi-pencil-square">Ubah</i>
                               </button>
                             </td>
                         </tr>';
@@ -491,23 +435,24 @@ if(isset($_POST['update'])){
                           <div class="modal-body">
                             <form action="" method="post">
                               <div class="row g-4">
+                                <input type="hidden" name="noinduk_siswa" value="'.$value['noinduk_siswa'].'" class="form-control">
+                                <div class="col-6 mb-3 mt-3">
+                                    <label for="nama_siswa" class="form-label">Nama</label>
+                                    <input type="text" name="nama_siswa" value="'.$value['nama_siswa'].'" class="form-control">
+                                </div>
                                 <div class="col-6 mb-3 mt-3">
                                     <label for="NIK_walmur" class="form-label">NIK Wali</label>
-                                    <input type="text" name="NIK_walmur" value="'.$value['NIK_walmur'].'" class="form-control" readonly>
+                                    <input type="text" name="NIK_walmur" value="'.$value['NIK_walmur'].'" class="form-control">
                                 </div>                            
-                                <div class="col-6 mb-3 mt-3">
-                                    <label for="anakke" class="form-label">Anak Ke-</label>
-                                    <input type="number" name="anakke" value="'.$value['anakke'].'" class="form-control" readonly>
-                                </div>
                               </div>
                               <div class="row g-4">
                                 <div class="col-6 mb-3 mt-3">
-                                    <label for="tgl_masuk" class="form-label">Tanggal Masuk</label>
-                                    <input type="text" name="tgl_masuk" value="'.$value['tgl_masuk'].'" class="form-control" readonly>
+                                  <label for="tgl_lulus" class="form-label">Tanggal Lulus</label>
+                                  <input type="text" name="tgl_lulus" value="'.$value['tgl_lulus'].'" class="form-control">
                                 </div>
                                 <div class="col-6 mb-3 mt-3">
-                                    <label for="tgl_lulus" class="form-label">Tanggal Lulus</label>
-                                    <input type="text" name="tgl_lulus" value="'.$value['tgl_lulus'].'" class="form-control" readonly>
+                                    <label for="alamat" class="form-label">Alamat</label>
+                                    <input type="text" name="alamat" value="'.$value['alamat'].'" class="form-control">
                                 </div>
 
                                 <div class="submit mt-4">
